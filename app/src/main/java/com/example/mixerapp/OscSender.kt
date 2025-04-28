@@ -22,9 +22,9 @@ class OscManager {
         try {
             val inetAddress = InetAddress.getByName(ip)
             oscPortOut = OSCPortOut(inetAddress, port)
-            Log.d("OSC", "✅ Connesso a $ip:$port")
+            Log.d("OSC", "Connesso a $ip:$port")
         } catch (e: Exception) {
-            Log.e("OSC", "❌ Errore nella connessione: ${e.message}", e)
+            Log.e("OSC", "Errore nella connessione: ${e.message}", e)
         }
     }
 
@@ -35,9 +35,9 @@ class OscManager {
         try {
             val message = OSCMessage("/text", listOf(text))
             oscPortOut?.send(message)
-            Log.d("OSC", "✅ Messaggio inviato: $text")
+            Log.d("OSC", "Messaggio inviato: $text")
         } catch (e: Exception) {
-            Log.e("OSC", "❌ Errore invio messaggio: ${e.message}", e)
+            Log.e("OSC", "Errore invio messaggio: ${e.message}", e)
         }
     }*/
 
@@ -47,9 +47,9 @@ class OscManager {
         try {
             val message = OSCMessage("/track/$track/volume", listOf(value))
             oscPortOut?.send(message)
-            Log.d("OSC", "✅ Volume inviato: $value")
+            Log.d("OSC", "Volume inviato: $value")
         } catch (e: Exception) {
-            Log.e("OSC", "❌ Errore invio volume: ${e.message}", e)
+            Log.e("OSC", "Errore invio volume: ${e.message}", e)
         }
     }
 
@@ -60,9 +60,9 @@ class OscManager {
         try {
             val message = OSCMessage("/master/volume", listOf(value))
             oscPortOut?.send(message)
-            Log.d("OSC", "✅ Volume inviato: $value")
+            Log.d("OSC", "Volume inviato: $value")
         } catch (e: Exception) {
-            Log.e("OSC", "❌ Errore invio volume: ${e.message}", e)
+            Log.e("OSC", "Errore invio volume: ${e.message}", e)
         }
     }
 
@@ -152,9 +152,9 @@ class OscManager {
         try {
             oscPortOut?.close()
             oscPortOut = null
-            Log.d("OSC", "✅ Disconnesso")
+            Log.d("OSC", "Disconnesso")
         } catch (e: Exception) {
-            Log.e("OSC", "❌ Errore disconnessione: ${e.message}", e)
+            Log.e("OSC", "Errore disconnessione: ${e.message}", e)
         }
     }
 }

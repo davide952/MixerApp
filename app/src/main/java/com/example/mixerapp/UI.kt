@@ -161,14 +161,14 @@ fun CustomFader(
                     modifier = Modifier.height(30.dp).width(60.dp).padding(0.dp)
                         .onFocusChanged { focusState -> isFocused.value = focusState.isFocused }
                         .background(
-                            if (isFocused.value) Color(0xFF444444) else Color.Transparent, // sfondo dinamico
+                            if (isFocused.value) Color(0xFF444444) else Color.Transparent,
                             shape = RoundedCornerShape(4.dp)
                         ),
                     decorationBox = { innerTextField ->
                         Box(
                             modifier = Modifier
                                 .fillMaxSize(),
-                            //.padding(horizontal = 4.dp), // opzionale, un po' di spazio laterale
+                            //.padding(horizontal = 4.dp), //
                             contentAlignment = Alignment.Center
                         ) {
                             innerTextField()
@@ -328,7 +328,7 @@ fun CustomFader(
                             .align(Alignment.TopCenter)
                     )
 
-                    // Slider invisibile per l'interazione
+                    // Slider invisibile
                     Slider(
                         value = volume,
                         onValueChange = onVolumeChange,
@@ -378,7 +378,7 @@ fun PanControlSlider(
             modifier = Modifier
                 .fillMaxWidth().weight(1f).padding(0.dp),
             track = {
-                // Traccia sottile
+                // Track sottile
                 Box(
                     modifier = Modifier
                         .fillMaxWidth().height(4.dp).background(Color(0xFF1B1E1F), RoundedCornerShape(1.5.dp))
@@ -420,6 +420,7 @@ fun SettingsScreen(navController: NavController, oscManager: OscManager) {
         var ipAddress by remember { mutableStateOf("192.168.1.18") }
         var port by remember { mutableStateOf("8000") }
 
+        //IP Mixer
         OutlinedTextField(
             value = ipAddress,
             onValueChange = { ipAddress = it },
@@ -427,6 +428,7 @@ fun SettingsScreen(navController: NavController, oscManager: OscManager) {
             modifier = Modifier.width(200.dp)
         )
         Spacer(modifier = Modifier.height(10.dp))
+        //Porta Mixer
         OutlinedTextField(
             value = port,
             onValueChange = { port = it },
@@ -436,6 +438,7 @@ fun SettingsScreen(navController: NavController, oscManager: OscManager) {
 
         Spacer(modifier = Modifier.height(20.dp))
 
+        // Pulsante per salvare le impostazioni
         Button(
             onClick = {
                 coroutineScope.launch { oscManager.connect(ipAddress, port.toInt()) }// Connetti con nuovo IP/porta
@@ -447,6 +450,7 @@ fun SettingsScreen(navController: NavController, oscManager: OscManager) {
 
         Spacer(modifier = Modifier.height(5.dp))
 
+        // Pulsante per tornare al mixer
         Button(
             onClick = { navController.popBackStack() }, // Torna al Mixer
             modifier =Modifier.width(200.dp)
@@ -455,106 +459,3 @@ fun SettingsScreen(navController: NavController, oscManager: OscManager) {
         }
     }
 }
-
-
-/*
-fun panToAngle(pan: Float): Float {
-    // Limita il valore tra -1 e 1, e mappa su -135° a 135°
-    return (pan.coerceIn(-1f, 1f)) * 135f
-}
-
-fun angleToPan(angle: Float): Float {
-    // Limita l'angolo tra -135° e 135° e mappa su -1 a 1
-    return (angle / 135f).coerceIn(-1f, 1f)
-}
-
-
-@Composable
-fun KnobPanControl(
-    modifier: Modifier = Modifier.size(50.dp),
-    initialValue: Float = 0f,
-    onPanChange: (Float) -> Unit
-) {
-    // Conversioni iniziali
-    var angle by remember { mutableStateOf(panToAngle(initialValue)) }
-    var panValue by remember { mutableStateOf(initialValue) }
-
-    val density = LocalDensity.current
-    val strokeWidth = 8f
-
-    Box(
-        modifier = modifier
-            .pointerInput(Unit) {
-                detectDragGestures { change, _ ->
-                    val size = this@pointerInput.size
-                    val center = Offset(size.width / 2f, size.height / 2f)
-
-                    val x = change.position.x - center.x
-                    val y = change.position.y - center.y
-
-                    var theta = atan2(y, x) * (180f / PI).toFloat()
-
-                    // Normalizza angolo per il range [-135°, 135°]
-                    if (theta < -135f) theta = -135f
-                    if (theta > 135f) theta = 135f
-
-                    angle = theta
-                    panValue = angleToPan(theta)
-                    onPanChange(panValue)
-                }
-            }
-    ) {
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            val center = Offset(size.width / 2, size.height / 2)
-            val radius = size.minDimension / 2 - strokeWidth * 2
-
-            // Cerchio esterno
-            drawCircle(
-                color = Color.DarkGray,
-                radius = radius,
-                center = center,
-                style = Stroke(width = strokeWidth)
-            )
-
-            // Indicatore (linea)
-            val angleRad = Math.toRadians((angle - 90).toDouble())
-            val lineLength = radius * 0.8f
-
-            val end = Offset(
-                x = center.x + cos(angleRad).toFloat() * lineLength,
-                y = center.y + sin(angleRad).toFloat() * lineLength
-            )
-
-            drawLine(
-                color = Color.Cyan,
-                start = center,
-                end = end,
-                strokeWidth = 6f,
-                cap = StrokeCap.Round
-            )
-        }
-        val panText = when {
-            panValue < 0f -> "L ${(panValue * -100).toInt()}%"
-            panValue > 0f -> "R ${(panValue * 100).toInt()}%"
-            else -> "C"
-        }
-        // Testo del valore
-        Text(
-            //text = "PAN: ${"%.2f".format(panValue)}",
-            text = panText,
-            color = Color.White,
-            fontSize = 14.sp,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(top = 4.dp)
-        )
-    }
-}
-*/
-
-
-
-
-
-
-
